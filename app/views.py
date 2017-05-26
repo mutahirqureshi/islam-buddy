@@ -1,30 +1,23 @@
-"""Main app file."""
-
-#!/usr/bin/env python
 import json
-import util
 
-from flask import Flask, request, render_template, redirect
+from flask import request, make_response, render_template, redirect
+from flask_assistant import Assistant, tell
 from oauth2.tokengenerator import URandomTokenGenerator
 
-from fake_db import FakeDb
+from app import app
+from app import fake_db as _db
+#from app import db as _db
 from prayer_info import PrayerInfo
 from start_time_intent_handler import StartTimeIntentHandler
 
-
-# pylint: disable-msg=C0103
-app = Flask(__name__)
 _prayer_info = PrayerInfo()
-_fake_db = FakeDb()
 _token_generator = URandomTokenGenerator(20)
-_start_time_handler = StartTimeIntentHandler(_prayer_info, _fake_db)
-
+_start_time_handler = StartTimeIntentHandler(_prayer_info, _db)
 
 @app.route('/')
 def home():
   """GET handler for home page."""
   return 'Welcome to the Islam Buddy API!'
-
 
 @app.route('/salah', methods=['POST', 'GET'])
 def salah():
@@ -67,9 +60,8 @@ def salah():
     if post_intent_name in StartTimeIntentHandler.INTENTS_HANDLED:
       server_response = _start_time_handler.HandleIntent(post_params)
     elif post_intent_name == 'CLEAR_LOCATION':
-      user_id = post_params.get('originalRequest').get('data').get('user').get(
-          'userId')
-      _fake_db.DeleteUser(user_id)
+      user_id = post_params.get('originalRequest').get('data').get('user').get('userId')
+      _db.DeleteUser(user_id)
       server_response = {
           "speech": "OK, your location has been cleared.",
       }
@@ -96,12 +88,30 @@ def authenticate():
 
   return redirect(full_redirect_uri)
 
+# /insert?userId=userId1&value=test_value234
+@app.route('/insert', methods=['GET'])
+def insert():
+  user_id = request.args.get('userId')
+  value = request.args.get('value')
+  _db.AddOrUpdateUser(user_id, { 'key1': 'value1', 'key2': value })
+  return 'added'
+
+# /query?userId=userId1
+@app.route('/query', methods=['GET'])
+def query():
+  user_id = request.args.get('userId')
+  user_info = _db.GetUserInfo(user_id)
+  return json.dumps(user_info)
+
+# /delete?userId=userId1
+@app.route('/delete', methods=['GET'])
+def delete():
+  user_id = request.args.get('userId')
+  _db.DeleteUser(user_id)
+  return 'deleted'
 
 @app.route('/privacy', methods=['GET'])
 def render_privacy():
   """Privacy handler."""
   return render_template('privacy.html')
 
-
-if __name__ == '__main__':
-  app.run()

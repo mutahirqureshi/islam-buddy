@@ -1,0 +1,29 @@
+# Template file for entities
+
+#Format as below
+
+# entity_name:
+#  - entry1: list of synonyms 
+#  - entry2: list of synonyms 
+
+#For example:
+
+# drink:
+#  - water: ['aqua', 'h20'] 
+#  - coffee: ['joe', 'caffeine', 'espresso', 'late'] 
+#  - soda: ['pop', 'coke']
+
+
+
+#gender:
+#  - male: ['man', 'boy', 'guy', 'dude', 'bro']
+#  - female: ['woman', 'girl', 'gal', 'sis'] 
+
+event:
+  - Fajr: ['Fajr', 'Fajar', 'Fajer', 'Suhur', 'Sehri']
+  - Sunrise: ['sunrise']
+  - Dhuhr: ['Dhuhr', 'Zuhr', 'Duhr', 'Dhohar', 'Zohar', 'Dohar', 'Dhuhar', 'Zuhar', 'Duhar', 'Dhohor', 'Zohor', 'Dohor']
+  - Asr: ['Asr', 'Asar', 'Asir', 'Aser']
+  - Maghrib: ['Maghrib', 'sunset', 'Magreb', 'Maghreb', 'Magrab', 'Maghrab', 'iftar', 'sundown']
+  - Isha: ['Isha', 'Esha']
+

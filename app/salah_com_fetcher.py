@@ -2,6 +2,7 @@
 
 import json
 import requests
+from app import logger
 
 _SALAH_API_URL = 'http://www.salah.com/times/get'
 '''
@@ -36,14 +37,23 @@ def GetDailyPrayerTimes(lat, lng):
       'lt': lat,
       'lg': lng,
   }
-  print 'post_data = ', post_data
-  request = requests.post(_SALAH_API_URL, data=post_data, timeout=15)
-  if request.status_code == 500:
+
+  try:
+    response = requests.post(_SALAH_API_URL, data=post_data, timeout=15)
+    response.raise_for_status()
+    payload = response.json()
+    logger.debug('salah.com response=%s', json.dumps(payload, indent=2))
+    # dig into the response until we find the prayer times
+    payload = payload['Prayers']
+    while len(payload) == 1: payload = payload.itervalues().next()
+    return payload
+  except requests.exceptions.HTTPError as err:
+    logger.error(err)
     return {}
-  print 'here = ', request.text
-  response = json.loads(request.text).get("Prayers")
-  print 'response from salah.com API', response
-  # dig into the response until we find the prayer times
-  for _ in range(_PRAYER_TIMES_RESPONSE_DEPTH):
-    response = response.itervalues().next()
-  return response
+  except:
+    return {}
+
+def GetEventTime(event, lat, lng):
+  times = GetDailyPrayerTimes(lat, lng)
+  logger.debug('times=%s', json.dumps(times, indent=2))
+  return times[event]

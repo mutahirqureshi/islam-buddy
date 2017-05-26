@@ -5,6 +5,7 @@ __pycache__/
 *$py.class
 *.py.swp
 *.swp
+appc
 
 # C extensions
 *.so
@@ -65,3 +66,7 @@ target/
 
 # Google App Engine
 lib
+
+# Project
+app/schema/*
+

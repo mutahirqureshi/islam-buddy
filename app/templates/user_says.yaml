@@ -1,0 +1,63 @@
+# Template for defining UserSays examples
+
+# give-color-intent:
+
+#  UserSays:
+#    - My color is blue
+#    - red is my favorite color
+
+#  Annotations:
+#    - blue: sys.color     # maps param value -> entity
+#    - red: sys.color
+
+prayer-time:
+
+  UserSays:
+    - When is Maghrib in Toronto
+    - When is Fajr in Mountain View, California
+    - When is iftar in Waterloo, Canada
+    - What time is Asr in San Francisco
+    - What time is sunset in Orlando, Florida
+    - What time is sunrise in Sydney, Australia
+    - When does Fajr start in Tokyo
+    - When does Isha start in Albany, New York
+    - When does Fajr start in Manchester, England
+    - What is the start time of Zuhr in Montreal
+    - What is the start time of Asr in Arlington, Virginia
+    - What is the start time of Maghrib in Frankfurt, Germany
+
+  Annotations:
+    - Maghrib: event
+    - Toronto: sys.geo-city
+    - Fajr: event
+    - Mountain View: sys.geo-city
+    - California: sys.geo-state-us
+    - iftar: event
+    - Waterloo: sys.geo-city
+    - Canada: sys.geo-country
+    - Asr: event
+    - San Francisco: sys.geo-city
+    - sunset: event
+    - Orlando: sys.geo-city
+    - Florida: sys.geo-state-us
+    - sunrise: event
+    - Sydney: sys.geo-city
+    - Australia: sys.geo-country
+    - Tokyo: sys.geo-city
+    - Isha: event
+    - Albany: sys.geo-city
+    - New York: sys.geo-state-us
+    - Manchester: sys.geo-city
+    - England: sys.geo-country
+    - Zuhr: event
+    - Montreal: sys.geo-city
+    - Arlington: sys.geo-city
+    - Virginia: sys.geo-state-us
+    - Frankfurt: sys.geo-city
+    - Germany: sys.geo-country
+
+clear-location:
+
+  UserSays:
+    - Clear my location
+

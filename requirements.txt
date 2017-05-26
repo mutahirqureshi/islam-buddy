@@ -1,4 +1,7 @@
-Flask==0.10.1
-requests==2.13.0
-flask-assistant==0.2.5
+aenum==2.0.8
+Flask==0.12.2
+Flask-Assistant==0.2.93
+future==0.16.0
+googlemaps==2.5.1
 python-oauth2==1.0.1
+requests==2.13.0

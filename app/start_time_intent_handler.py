@@ -9,7 +9,6 @@ from common import Locality
 from masjid_util import GetMasjidDisplayName
 
 
-
 def _GetContext(post_params, context_name):
   for candidate in post_params.get('result').get('contexts'):
     if candidate['name'] == context_name:
@@ -102,9 +101,10 @@ class StartTimeIntentHandler(object):
       desired_prayer = params.get('PrayerName')
     else:
       # this should be filled on PERMISSION_REQUEST intents in the relevant context
-      permission_context = _GetContext(post_params, 'requ')
+      permission_context = self._GetContext(post_params, 'requ')
       print 'permission context = ', permission_context
       desired_prayer = permission_context.get('parameters').get('PrayerName')
+
 
     # this should also always be available
     user_id = post_params.get('originalRequest').get('data').get('user').get(
@@ -132,7 +132,7 @@ class StartTimeIntentHandler(object):
   def _LookupOrRequestInformation(self, post_params, params, desired_prayer,
                                   user_id):
     # do not ask for permission if we've already asked for it before
-    permission_context = _GetContext(post_params, 'actions_intent_permission')
+    permission_context = self._GetContext(post_params, 'actions_intent_permission')
     if (permission_context and
         permission_context.get('parameters').get('PERMISSION') == 'false'):
       # if we are here it means the user rejected our request to use location
